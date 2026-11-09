@@ -2,7 +2,7 @@ const { initializeApp } = require('firebase/app');
 const { getFirestore, collection, getDocs } = require('firebase/firestore');
 
 const firebaseConfig = {
-  projectId: 'expoapp-da9ac'
+  projectId: 'expo-app-tpi'
 };
 
 const app = initializeApp(firebaseConfig);

@@ -24,8 +24,8 @@ Thiago es responsable del esqueleto de navegación y de las pantallas generales 
 - [x] Implementar `HomeScreen` como dashboard y acceso a las secciones principales: nuevo reporte, mis reportes, mapa y perfil.
 - [x] Implementar `PerfilScreen` para mostrar la información de cuenta disponible y permitir seleccionar/ver la foto de perfil.
 - [x] Consumir el servicio de selección de imágenes acordado con Esteban y guardar la URI del avatar con `storageService.js`.
-- [ ] Ser el único responsable de `src/navigation/AppNavigation.js`, `src/navigation/AuthStack.js` y `src/navigation/AppStack.js`.
-- [ ] Acordar y registrar los nombres de rutas: `Login`, `Registro`, `Inicio`, `NuevoReporte`, `MisReportes`, `Mapa` y `Perfil`.
+- [x] Ser el único responsable de `src/navigation/AppNavigation.js`, `src/navigation/AuthStack.js` y `src/navigation/AppStack.js`.
+- [x] Acordar y registrar los nombres de rutas: `Login`, `Registro`, `Inicio`, `NuevoReporte`, `MisReportes`, `Mapa` y `Perfil`.
 - [x] Crear componentes comunes de interfaz en `src/components/`, por ejemplo botón, campo de texto, encabezado y estado de carga. Thiago administra los componentes genéricos; Esteban administra los componentes propios de reportes.
 - [x] Crear estilos nuevos para UrbanAlert sin reutilizar ni modificar los estilos del prototipo antiguo.
 - [ ] Actualizar `app.json` y `README.md` para que describan UrbanAlert y las instrucciones reales del proyecto.

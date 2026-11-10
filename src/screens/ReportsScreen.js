@@ -5,6 +5,7 @@ import {
     Modal,
     Pressable,
     RefreshControl,
+    ScrollView,
     Text,
     TextInput,
     View,
@@ -217,40 +218,42 @@ export default function ReportsScreen({ navigation }) {
                 <View style={styles.modalOverlay}>
                     <View style={styles.modalContent}>
                         <Text style={styles.sectionTitle}>Editar reclamo</Text>
-                        <View style={styles.field}>
-                            <Text style={styles.label}>Título</Text>
-                            <TextInput
-                                accessibilityLabel="Editar título"
-                                value={draft.titulo}
-                                onChangeText={(titulo) => setDraft((current) => ({ ...current, titulo }))}
-                                maxLength={80}
-                                editable={!operation}
-                                style={[styles.input, editErrors.titulo && styles.inputError]}
-                            />
-                            {!!editErrors.titulo && <Text style={styles.fieldError}>{editErrors.titulo}</Text>}
-                        </View>
-                        <View style={styles.field}>
-                            <Text style={styles.label}>Descripción</Text>
-                            <TextInput
-                                accessibilityLabel="Editar descripción"
-                                value={draft.descripcion}
-                                onChangeText={(descripcion) => setDraft((current) => ({ ...current, descripcion }))}
-                                maxLength={1000}
-                                multiline
-                                editable={!operation}
-                                style={[styles.input, styles.textArea, editErrors.descripcion && styles.inputError]}
-                            />
-                            {!!editErrors.descripcion && <Text style={styles.fieldError}>{editErrors.descripcion}</Text>}
-                        </View>
-                        <View style={styles.field}>
-                            <Text style={styles.label}>Categoría</Text>
-                            <CategorySelector
-                                value={draft.categoria}
-                                onChange={(categoria) => setDraft((current) => ({ ...current, categoria }))}
-                                disabled={operation}
-                            />
-                            {!!editErrors.categoria && <Text style={styles.fieldError}>{editErrors.categoria}</Text>}
-                        </View>
+                        <ScrollView contentContainerStyle={{ gap: 14 }} keyboardShouldPersistTaps="handled" style={{ maxHeight: '76%' }}>
+                            <View style={styles.field}>
+                                <Text style={styles.label}>Título</Text>
+                                <TextInput
+                                    accessibilityLabel="Editar título"
+                                    value={draft.titulo}
+                                    onChangeText={(titulo) => setDraft((current) => ({ ...current, titulo }))}
+                                    maxLength={80}
+                                    editable={!operation}
+                                    style={[styles.input, editErrors.titulo && styles.inputError]}
+                                />
+                                {!!editErrors.titulo && <Text style={styles.fieldError}>{editErrors.titulo}</Text>}
+                            </View>
+                            <View style={styles.field}>
+                                <Text style={styles.label}>Descripción</Text>
+                                <TextInput
+                                    accessibilityLabel="Editar descripción"
+                                    value={draft.descripcion}
+                                    onChangeText={(descripcion) => setDraft((current) => ({ ...current, descripcion }))}
+                                    maxLength={1000}
+                                    multiline
+                                    editable={!operation}
+                                    style={[styles.input, styles.textArea, editErrors.descripcion && styles.inputError]}
+                                />
+                                {!!editErrors.descripcion && <Text style={styles.fieldError}>{editErrors.descripcion}</Text>}
+                            </View>
+                            <View style={styles.field}>
+                                <Text style={styles.label}>Categoría</Text>
+                                <CategorySelector
+                                    value={draft.categoria}
+                                    onChange={(categoria) => setDraft((current) => ({ ...current, categoria }))}
+                                    disabled={operation}
+                                />
+                                {!!editErrors.categoria && <Text style={styles.fieldError}>{editErrors.categoria}</Text>}
+                            </View>
+                        </ScrollView>
                         <View style={styles.row}>
                             <Pressable accessibilityRole="button" disabled={operation} onPress={closeEdit} style={[styles.button, styles.buttonOutline]}>
                                 <Text style={styles.buttonTextSecondary}>Volver</Text>

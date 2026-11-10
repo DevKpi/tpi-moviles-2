@@ -91,8 +91,9 @@ Tu objetivo es producir código pedagógico, limpio, modular y completamente fun
      - `test(services): agregar tests unitarios para reportService con mocks de firestore`
      - `refactor(screens): extraer tarjetas de reporte a componente modular ReportCard`
      - `chore(deps): actualizar dependencias y scripts de prueba`
-2. **Atomicidad:**
-   - 1 cambio lógico concreto por commit.
+2. **Atomicidad y Granularidad por Archivo (1 archivo/unidad = 1 commit):**
+   - **Regla estricta de commits individuales:** Generar **un commit independiente por cada componente, cada hoja de estilo (`styles`), cada pantalla (`screens`), cada archivo de navegación, cada servicio y cada archivo de test**.
+   - **PROHIBIDO** agrupar múltiples componentes o múltiples hojas de estilo en un solo commit.
    - Prohibido mezclar cambios de múltiples módulos, refactors de formato y nuevas características en una misma confirmación.
    - Cada commit debe dejar el árbol de trabajo en un estado estable y compilable.
 3. **Calidad de Mensajes:**

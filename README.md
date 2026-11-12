@@ -1,45 +1,47 @@
-# 📱 ExpoApp - Autenticación con Firebase
+# 🏙️ UrbanAlert - Sistema de Reporte de Reclamos e Incidentes Urbanos
 
-Una aplicación móvil desarrollada con **React Native** y **Expo (SDK 54)**, que implementa un sistema de autenticación de usuarios (registro, inicio de sesión y persistencia de estado) utilizando **Firebase Authentication** y navegación dinámica con **React Navigation**.
+Aplicación móvil desarrollada con **React Native** y **Expo (SDK 58)** para el Trabajo Práctico Integrador Final de Desarrollo Móvil. Permite a los ciudadanos registrar, consultar y visualizar en un mapa reclamos e incidentes urbanos (baches, iluminación, semáforos, residuos, arbolado, entre otros).
 
 ---
 
-## 🚀 Características
+## 🚀 Características Principales
 
-- 🔐 **Autenticación con Firebase**: Registro e inicio de sesión de usuarios con correo y contraseña.
-- 🔄 **Persistencia y Control de Sesión**: Detección automática del estado del usuario mediante `onAuthStateChanged`.
-- 🧭 **Navegación Condicional**:
-  - **Rutas Públicas (No autenticado)**: Pantallas de Login y Registro.
-  - **Rutas Privadas (Autenticado)**: Pantalla de Inicio (Home).
-- 📱 **Multiplataforma**: Compatible con Android, iOS y Web.
+- 🔐 **Acceso y Cuenta de Usuario**: Pantallas de inicio de sesión, registro y perfil con gestión de avatar local.
+- 🧭 **Navegación Protegida**: Separación entre rutas públicas (`Login`, `Registro`) y privadas (`Inicio`, `NuevoReporte`, `MisReportes`, `Mapa`, `Perfil`) mediante **React Navigation v7**.
+- 📝 **Gestión de Reclamos**: Creación de reportes con categoría, descripción, fotografía y ubicación geográfica.
+- 🗺️ **Visualización en Mapa**: Mapa interactivo con marcadores en Android/iOS (`react-native-maps`) y vista alternativa compatible para entorno Web.
+- 📍 **Hardware y Sensores**: Integración con cámara/galería (`expo-image-picker`), GPS (`expo-location`) y almacenamiento local (`@react-native-async-storage/async-storage`, `expo-secure-store`).
+- 🧪 **Testing Unitario**: Configuración de pruebas con **Jest** y `jest-expo` mediante mocks locales sin depender de red ni hardware real.
 
 ---
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **Framework**: [React Native](https://reactnative.dev/) (v0.81) / [Expo](https://expo.dev/) (SDK 54)
-- **Navegación**: [React Navigation v7](https://reactnavigation.org/) (Native Stack)
-- **Backend as a Service (BaaS)**: [Firebase](https://firebase.google.com/) (v12)
-- **Almacenamiento Local**: `@react-native-async-storage/async-storage`
+- **Framework:** [React Native](https://reactnative.dev/) (0.88.x) / [Expo](https://expo.dev/) (SDK 58) / React 19
+- **Navegación:** [React Navigation v7](https://reactnavigation.org/) (`@react-navigation/native`, `@react-navigation/native-stack`)
+- **Backend & Auth:** [Firebase v12](https://firebase.google.com/) (SDK modular)
+- **Mapas y Sensores:** `react-native-maps`, `expo-location`, `expo-image-picker`
+- **Almacenamiento Local:** `@react-native-async-storage/async-storage`, `expo-secure-store`
+- **Testing:** `jest`, `jest-expo`
 
 ---
 
 ## 📁 Estructura del Proyecto
 
 ```text
-ExpoApp/
+tpi-moviles-2/
 ├── assets/                    # Íconos, splash screen y recursos gráficos
 ├── src/
-│   ├── navigation/
-│   │   └── AppNavigation.js   # Manejador de navegación y estado de sesión (Firebase Auth)
-│   └── screens/
-│       ├── HomeScreen.js      # Pantalla principal tras iniciar sesión
-│       ├── LoginScreen.js     # Pantalla de inicio de sesión
-│       └── RegisterScreen.js  # Pantalla de registro de usuario
+│   ├── components/            # Componentes reutilizables de UI
+│   ├── context/               # Contexto global de autenticación (AuthContext)
+│   ├── firebase/              # Inicialización y servicios de Firebase
+│   ├── navigation/            # AppNavigation, AuthStack y AppStack
+│   ├── screens/               # Pantallas principales de UrbanAlert
+│   ├── services/              # Servicios de ubicación, imágenes y almacenamiento
+│   └── styles/                # Hojas de estilo desacopladas (StyleSheet)
 ├── App.js                     # Componente raíz de la aplicación
-├── app.json                   # Configuración del proyecto Expo
-├── firebase.js                # Inicialización y credenciales de Firebase
-├── index.js                   # Entry point de Expo
+├── app.json                   # Configuración del proyecto Expo (UrbanAlert)
+├── index.js                   # Punto de entrada de Expo
 ├── package.json               # Dependencias y scripts del proyecto
 └── README.md                  # Documentación del proyecto
 ```
@@ -48,89 +50,51 @@ ExpoApp/
 
 ## 📋 Requisitos Previos
 
-Antes de comenzar, asegúrate de tener instalado:
-
-1. **Node.js** (versión LTS recomendada, v18 o superior): [Descargar Node.js](https://nodejs.org/)
-2. **Git**: [Descargar Git](https://git-scm.com/)
-3. **Expo Go** en tu dispositivo móvil (disponible en Google Play Store y App Store) o un emulador/simulador configurado (Android Studio / Xcode).
+- **Node.js** (versión LTS recomendada, v18 o superior)
+- **Git**
+- **Expo Go** en dispositivo móvil o emulador/simulador configurado (Android Studio / Xcode)
 
 ---
 
-## ⚙️ Instalación y Configuración
+## ⚙️ Instalación y Ejecución
 
-### 1. Clonar el repositorio o descargar el proyecto
+1. **Clonar el repositorio e ingresar al directorio:**
 
 ```bash
 git clone <URL_DEL_REPOSITORIO>
-cd ExpoApp
+cd tpi-moviles-2
 ```
 
-### 2. Instalar las dependencias
+2. **Instalar las dependencias:**
 
 ```bash
 npm install
 ```
 
-### 3. Configurar Firebase
+3. **Iniciar el servidor de desarrollo de Expo:**
 
-El archivo `firebase.js` contiene la configuración de inicialización de Firebase. Asegúrate de tener habilitado el proveedor de **Email/Password** en tu consola de Firebase:
-
-1. Ve a [Firebase Console](https://console.firebase.google.com/).
-2. Selecciona tu proyecto y ve a **Authentication** > **Sign-in method**.
-3. Habilita el proveedor **Correo electrónico/Contraseña** (Email/Password).
-4. Verifica que las credenciales en `firebase.js` coincidan con las de tu proyecto:
-
-```javascript
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-
-const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_AUTH_DOMAIN",
-  projectId: "TU_PROJECT_ID",
-  storageBucket: "TU_STORAGE_BUCKET",
-  messagingSenderId: "TU_MESSAGING_SENDER_ID",
-  appId: "TU_APP_ID"
-};
-
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export default app;
-```
-
----
-
-## ▶️ Ejecución del Proyecto
-
-Inicia el servidor de desarrollo de Expo con:
-
-```bash
-npx expo start
-```
-o con el script de npm:
 ```bash
 npm start
 ```
 
-### Opciones de visualización:
-- **Dispositivo físico**: Abre la aplicación **Expo Go** y escanea el código QR que aparece en la terminal o navegador.
-- **Android Emulator**: Presiona `a` en la terminal o ejecuta `npm run android`.
-- **iOS Simulator** (solo macOS): Presiona `i` en la terminal o ejecuta `npm run ios`.
-- **Web**: Presiona `w` en la terminal o ejecuta `npm run web`.
+### Opciones de visualización
+- **Dispositivo físico:** Abrir **Expo Go** y escanear el código QR mostrado en la terminal.
+- **Android Emulator:** Presionar `a` en la terminal o ejecutar `npm run android`.
+- **iOS Simulator** (solo macOS): Presionar `i` en la terminal o ejecutar `npm run ios`.
+- **Web:** Presionar `w` en la terminal o ejecutar `npm run web`.
 
 ---
 
 ## 📜 Scripts Disponibles
 
-En el archivo `package.json` dispones de los siguientes comandos:
-
 - `npm start`: Inicia el servidor de desarrollo de Expo.
-- `npm run android`: Inicia la aplicación directamente en un emulador o dispositivo Android conectado.
+- `npm run android`: Inicia la aplicación en un emulador o dispositivo Android.
 - `npm run ios`: Inicia la aplicación en el simulador de iOS.
 - `npm run web`: Inicia la aplicación en el navegador web local.
+- `npm test`: Ejecuta la suite de pruebas unitarias con Jest.
 
 ---
 
-## 👥 Autores y Créditos
+## 👥 Autores
 
-Proyecto desarrollado como parte de la formación académica en desarrollo de software para prácticas con React Native y Firebase.
+Trabajo Práctico Integrador Final — Desarrollo Móvil (**UrbanAlert**).

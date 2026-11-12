@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "ExpoApp",
-    "slug": "ExpoApp",
+    "name": "UrbanAlert",
+    "slug": "urban-alert",
+    "description": "Sistema de Reporte de Reclamos e Incidentes Urbanos",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

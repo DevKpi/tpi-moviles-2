@@ -28,8 +28,8 @@ Thiago es responsable del esqueleto de navegación y de las pantallas generales 
 - [x] Acordar y registrar los nombres de rutas: `Login`, `Registro`, `Inicio`, `NuevoReporte`, `MisReportes`, `Mapa` y `Perfil`.
 - [x] Crear componentes comunes de interfaz en `src/components/`, por ejemplo botón, campo de texto, encabezado y estado de carga. Thiago administra los componentes genéricos; Esteban administra los componentes propios de reportes.
 - [x] Crear estilos nuevos para UrbanAlert sin reutilizar ni modificar los estilos del prototipo antiguo.
-- [ ] Actualizar `app.json` y `README.md` para que describan UrbanAlert y las instrucciones reales del proyecto.
-- [ ] Preparar la configuración de Jest compatible con Expo y el script de pruebas del proyecto, sin incluir pruebas que dependan de Firebase.
+- [x] Actualizar `app.json` y `README.md` para que describan UrbanAlert y las instrucciones reales del proyecto.
+- [x] Preparar la configuración de Jest compatible con Expo y el script de pruebas del proyecto, sin incluir pruebas que dependan de Firebase.
 
 **Archivos bajo responsabilidad de Thiago:**
 

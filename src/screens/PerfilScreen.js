@@ -24,6 +24,7 @@ import {
     obtenerImagenPerfil,
 } from '../services/storageService';
 import { getUser } from '../services/userService';
+import { getReportErrorMessage } from '../utils/reportErrorMessages';
 import { urbanPerfilStyles as styles } from '../styles/UrbanPerfilStyles';
 
 export default function PerfilScreen({ navigation, onLogout }) {
@@ -98,8 +99,10 @@ export default function PerfilScreen({ navigation, onLogout }) {
                 await guardarImagenPerfil(uri, user?.uid);
                 setAvatarUri(uri);
             }
-        } catch {
-            setErrorMessage('Ocurrió un error al seleccionar la imagen de la galería.');
+        } catch (error) {
+            setErrorMessage(
+                getReportErrorMessage(error, 'Ocurrió un error al seleccionar la imagen de la galería.')
+            );
         } finally {
             setUpdatingImage(false);
         }
@@ -115,8 +118,10 @@ export default function PerfilScreen({ navigation, onLogout }) {
                 await guardarImagenPerfil(uri, user?.uid);
                 setAvatarUri(uri);
             }
-        } catch {
-            setErrorMessage('Ocurrió un error al capturar la fotografía con la cámara.');
+        } catch (error) {
+            setErrorMessage(
+                getReportErrorMessage(error, 'Ocurrió un error al capturar la fotografía con la cámara.')
+            );
         } finally {
             setUpdatingImage(false);
         }
@@ -128,9 +133,19 @@ export default function PerfilScreen({ navigation, onLogout }) {
             handlePickFromGallery();
             return;
         }
-        showImageSourceOptions(async (uri) => {
-            await applyNewAvatar(uri);
-        });
+        showImageSourceOptions(
+            async (uri) => {
+                await applyNewAvatar(uri);
+            },
+            {
+                title: 'Foto de Perfil',
+                onError: (error) => {
+                    setErrorMessage(
+                        getReportErrorMessage(error, 'No se pudo obtener la fotografía seleccionada.')
+                    );
+                },
+            }
+        );
     };
 
     const handleRemoveAvatar = async () => {

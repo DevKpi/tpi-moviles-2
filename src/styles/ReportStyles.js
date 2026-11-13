@@ -1,17 +1,18 @@
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { COLORS, RADIUS, SHADOWS, SPACING } from './CommonStyles';
 
 export const reportColors = {
-    ink: '#14263D',
-    muted: '#60738A',
-    primary: '#116B74',
-    primaryDark: '#0C555D',
-    accent: '#D9F1EE',
-    canvas: '#F3F7F8',
-    surface: '#FFFFFF',
-    border: '#DCE6E9',
-    danger: '#B83C45',
-    dangerSoft: '#FCEBED',
-    success: '#24724D',
+    ink: COLORS.textPrimary,
+    muted: COLORS.textSecondary,
+    primary: COLORS.primary,
+    primaryDark: COLORS.primaryDark,
+    accent: COLORS.primaryLight,
+    canvas: COLORS.background,
+    surface: COLORS.surface,
+    border: COLORS.border,
+    danger: COLORS.danger,
+    dangerSoft: COLORS.dangerLight,
+    success: COLORS.success,
 };
 
 export const reportStyles = StyleSheet.create({
@@ -75,19 +76,10 @@ export const reportStyles = StyleSheet.create({
         backgroundColor: reportColors.surface,
         borderColor: reportColors.border,
         borderWidth: 1,
-        borderRadius: 18,
-        padding: 18,
+        borderRadius: RADIUS.lg,
+        padding: SPACING.md + 2,
         gap: 14,
-        ...Platform.select({
-            web: { boxShadow: '0 8px 24px rgba(20, 38, 61, 0.06)' },
-            android: { elevation: 2 },
-            ios: {
-                shadowColor: '#14263D',
-                shadowOffset: { width: 0, height: 5 },
-                shadowOpacity: 0.05,
-                shadowRadius: 14,
-            },
-        }),
+        ...SHADOWS.card,
     },
     sectionTitle: {
         color: reportColors.ink,
@@ -106,11 +98,11 @@ export const reportStyles = StyleSheet.create({
         minHeight: 48,
         borderColor: reportColors.border,
         borderWidth: 1,
-        borderRadius: 12,
-        backgroundColor: '#FBFDFD',
+        borderRadius: RADIUS.md,
+        backgroundColor: COLORS.background,
         color: reportColors.ink,
         fontSize: 15,
-        paddingHorizontal: 13,
+        paddingHorizontal: 14,
         paddingVertical: 11,
     },
     textArea: {
@@ -164,9 +156,9 @@ export const reportStyles = StyleSheet.create({
     locationBox: {
         borderColor: reportColors.border,
         borderWidth: 1,
-        borderRadius: 13,
-        backgroundColor: '#FBFDFD',
-        padding: 13,
+        borderRadius: RADIUS.md,
+        backgroundColor: COLORS.background,
+        padding: 14,
         gap: 8,
     },
     locationValue: {
@@ -177,15 +169,16 @@ export const reportStyles = StyleSheet.create({
     photoPreview: {
         width: '100%',
         height: 190,
-        borderRadius: 14,
-        backgroundColor: '#EDF3F4',
+        borderRadius: RADIUS.md,
+        backgroundColor: COLORS.surfaceMuted,
     },
     photoPlaceholder: {
         minHeight: 112,
-        borderRadius: 14,
+        borderRadius: RADIUS.md,
         borderWidth: 1,
         borderStyle: 'dashed',
-        borderColor: '#B8C9CC',
+        borderColor: COLORS.primaryBorder,
+        backgroundColor: COLORS.background,
         alignItems: 'center',
         justifyContent: 'center',
         padding: 16,
@@ -215,7 +208,7 @@ export const reportStyles = StyleSheet.create({
     buttonSecondary: {
         backgroundColor: reportColors.accent,
         borderWidth: 1,
-        borderColor: '#B8DEDA',
+        borderColor: COLORS.primaryBorder,
     },
     buttonDanger: {
         backgroundColor: reportColors.dangerSoft,
@@ -263,9 +256,10 @@ export const reportStyles = StyleSheet.create({
         backgroundColor: reportColors.surface,
         borderColor: reportColors.border,
         borderWidth: 1,
-        borderRadius: 16,
-        padding: 14,
+        borderRadius: RADIUS.lg,
+        padding: SPACING.md,
         gap: 12,
+        ...SHADOWS.card,
     },
     cardMain: {
         flexDirection: 'row',
@@ -275,14 +269,14 @@ export const reportStyles = StyleSheet.create({
     thumbnail: {
         width: 76,
         height: 76,
-        borderRadius: 12,
-        backgroundColor: '#EDF3F4',
+        borderRadius: RADIUS.md,
+        backgroundColor: COLORS.surfaceMuted,
     },
     thumbnailPlaceholder: {
         width: 76,
         height: 76,
-        borderRadius: 12,
-        backgroundColor: '#EDF3F4',
+        borderRadius: RADIUS.md,
+        backgroundColor: COLORS.surfaceMuted,
         alignItems: 'center',
         justifyContent: 'center',
     },

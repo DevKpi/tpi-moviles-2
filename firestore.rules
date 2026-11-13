@@ -2,22 +2,95 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // Reglas para la colección de tareas
-    match /tareas/{tareaId} {
-      // 1. Lectura: el usuario debe estar autenticado y la tarea debe pertenecerle
-      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
-
-      // 2. Creación: el usuario debe estar autenticado y el userId de la nueva tarea debe coincidir con su uid
-      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
-
-      // 3. Modificación y eliminación: el usuario debe estar autenticado y ser el dueño de la tarea existente
-      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    function signedIn() {
+      return request.auth != null;
     }
 
-    // Reglas para la colección de usuarios (perfil)
+    function validCategory(category) {
+      return category in [
+        'Baches y Calzada',
+        'Iluminación Pública',
+        'Semáforos',
+        'Basura y Residuos',
+        'Arbolado y Espacios Verdes',
+        'Otros'
+      ];
+    }
+
+    function validStatus(status) {
+      return status in ['Pendiente', 'En revisión', 'Resuelto', 'Cancelado'];
+    }
+
+    function validCoordinates(coordinates) {
+      return coordinates == null || (
+        coordinates is map
+        && coordinates.keys().hasAll(['latitude', 'longitude'])
+        && coordinates.keys().hasOnly(['latitude', 'longitude'])
+        && coordinates.latitude is number
+        && coordinates.longitude is number
+        && coordinates.latitude >= -90
+        && coordinates.latitude <= 90
+        && coordinates.longitude >= -180
+        && coordinates.longitude <= 180
+      );
+    }
+
+    function validReportFields(data) {
+      return data.userId is string
+        && data.titulo is string
+        && data.titulo.size() > 0
+        && data.titulo.size() <= 80
+        && data.descripcion is string
+        && data.descripcion.size() > 0
+        && data.descripcion.size() <= 1000
+        && validCategory(data.categoria)
+        && validStatus(data.estado)
+        && (data.fotoUri == null || (data.fotoUri is string && data.fotoUri.size() <= 2048))
+        && validCoordinates(data.coordenadas)
+        && data.fechaCreacion is string
+        && data.fechaActualizacion is string;
+    }
+
+    match /reportes/{reporteId} {
+      // Los usuarios autenticados ven los incidentes para consultar el mapa comunitario.
+      allow read: if signedIn();
+
+      allow create: if signedIn()
+        && request.resource.data.keys().hasAll([
+          'userId', 'titulo', 'descripcion', 'categoria', 'estado',
+          'fotoUri', 'coordenadas', 'fechaCreacion', 'fechaActualizacion'
+        ])
+        && request.resource.data.keys().hasOnly([
+          'userId', 'titulo', 'descripcion', 'categoria', 'estado',
+          'fotoUri', 'coordenadas', 'fechaCreacion', 'fechaActualizacion'
+        ])
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.estado == 'Pendiente'
+        && validReportFields(request.resource.data);
+
+      allow update: if signedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'titulo', 'descripcion', 'categoria', 'estado', 'fotoUri', 'coordenadas', 'fechaActualizacion'
+        ])
+        && (
+          request.resource.data.estado == resource.data.estado
+          || (resource.data.estado in ['Pendiente', 'En revisión'] && request.resource.data.estado == 'Cancelado')
+        )
+        && validReportFields(request.resource.data);
+
+      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    match /tareas/{tareaId} {
+      allow read: if signedIn() && resource.data.userId == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if signedIn() && resource.data.userId == request.auth.uid;
+    }
+
     match /usuarios/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read, write: if signedIn() && request.auth.uid == userId;
     }
   }
 }

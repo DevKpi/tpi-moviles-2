@@ -1,57 +1,73 @@
 import * as Location from 'expo-location';
 
+const deviceError = (code, cause) => {
+    const error = new Error(code);
+    error.code = code;
+    if (cause) error.cause = cause;
+    return error;
+};
+
+const ensureLocationAccess = async () => {
+    let servicesEnabled;
+
+    try {
+        servicesEnabled = await Location.hasServicesEnabledAsync();
+    } catch (error) {
+        throw deviceError('LOCATION_STATUS_UNAVAILABLE', error);
+    }
+
+    if (!servicesEnabled) throw deviceError('LOCATION_DISABLED');
+
+    let permission;
+    try {
+        permission = await Location.requestForegroundPermissionsAsync();
+    } catch (error) {
+        throw deviceError('LOCATION_PERMISSION_UNAVAILABLE', error);
+    }
+
+    if (permission.status !== 'granted') throw deviceError('LOCATION_PERMISSION_DENIED');
+};
+
 export const getCurrentLocation = async () => {
-    const enabled = await Location.hasServicesEnabledAsync();
+    await ensureLocationAccess();
 
-    if (!enabled) {
-        throw new Error('LOCATION_DISABLED');
+    let position;
+    try {
+        position = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.Balanced,
+        });
+    } catch (error) {
+        throw deviceError('LOCATION_UNAVAILABLE', error);
     }
-
-    const permiso = await Location.requestForegroundPermissionsAsync();
-
-    if (permiso.status !== 'granted') {
-        throw new Error('LOCATION_PERMISSION_DENIED');
-    }
-
-    const result = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
-    });
 
     return {
-        latitude: result.coords.latitude,
-        longitude: result.coords.longitude,
-        accuracy: result.coords.accuracy,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        accuracy: position.coords.accuracy,
     };
 };
 
 export const watchLocation = async (onLocationUpdate, options = {}) => {
-    const enabled = await Location.hasServicesEnabledAsync();
-
-    if (!enabled) {
-        throw new Error('LOCATION_DISABLED');
+    if (typeof onLocationUpdate !== 'function') {
+        throw deviceError('LOCATION_CALLBACK_REQUIRED');
     }
 
-    const permiso = await Location.requestForegroundPermissionsAsync();
+    await ensureLocationAccess();
 
-    if (permiso.status !== 'granted') {
-        throw new Error('LOCATION_PERMISSION_DENIED');
-    }
-
-    const subscription = await Location.watchPositionAsync(
-        {
-            accuracy: Location.Accuracy.Balanced,
-            distanceInterval: 10,
-            ...options,
-        },
-        (position) => {
-            console.log(position.coords);
-            if (onLocationUpdate && position?.coords) {
-                onLocationUpdate(position.coords);
+    try {
+        return await Location.watchPositionAsync(
+            {
+                accuracy: Location.Accuracy.Balanced,
+                distanceInterval: 10,
+                ...options,
+            },
+            (position) => {
+                if (position?.coords) onLocationUpdate(position.coords);
             }
-        }
-    );
-
-    return subscription;
+        );
+    } catch (error) {
+        throw deviceError('LOCATION_WATCH_FAILED', error);
+    }
 };
 
 export const watchPosition = watchLocation;

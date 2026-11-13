@@ -45,7 +45,7 @@ service cloud.firestore {
         && data.descripcion.size() <= 1000
         && validCategory(data.categoria)
         && validStatus(data.estado)
-        && (data.fotoUri == null || (data.fotoUri is string && data.fotoUri.size() <= 2048))
+        && (data.fotoUri == null || (data.fotoUri is string && data.fotoUri.size() <= 524288))
         && validCoordinates(data.coordenadas)
         && data.fechaCreacion is string
         && data.fechaActualizacion is string;
@@ -70,6 +70,7 @@ service cloud.firestore {
 
       allow update: if signedIn()
         && resource.data.userId == request.auth.uid
+        && resource.data.estado in ['Pendiente', 'En revisión']
         && request.resource.data.userId == resource.data.userId
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
           'titulo', 'descripcion', 'categoria', 'estado', 'fotoUri', 'coordenadas', 'fechaActualizacion'
@@ -81,12 +82,6 @@ service cloud.firestore {
         && validReportFields(request.resource.data);
 
       allow delete: if signedIn() && resource.data.userId == request.auth.uid;
-    }
-
-    match /tareas/{tareaId} {
-      allow read: if signedIn() && resource.data.userId == request.auth.uid;
-      allow create: if signedIn() && request.resource.data.userId == request.auth.uid;
-      allow update, delete: if signedIn() && resource.data.userId == request.auth.uid;
     }
 
     match /usuarios/{userId} {

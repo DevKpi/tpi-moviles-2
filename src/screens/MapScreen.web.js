@@ -1,6 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Linking, Pressable, Text, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import BackButton from '../components/BackButton';
 import ReportCard from '../components/ReportCard';
 import { isValidCoordinates } from '../constants/reportConstants';
 import { AuthContext } from '../context/AuthContext';
@@ -107,9 +108,7 @@ export default function MapScreenWeb({ navigation }) {
                         <Text style={mapStyles.subtitle}>Versión web · {reports.filter((item) => item.coordenadas && isValidCoordinates(item.coordenadas)).length} ubicaciones disponibles</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                        <Pressable accessibilityRole="button" onPress={goBack} style={[reportStyles.button, reportStyles.buttonOutline, { minHeight: 40, paddingHorizontal: 12 }]}>
-                            <Text style={reportStyles.buttonTextSecondary}>← Volver</Text>
-                        </Pressable>
+                        <BackButton onPress={goBack} />
                         <Pressable accessibilityRole="button" onPress={loadReports} style={mapStyles.actionButton}>
                             <Text style={mapStyles.actionButtonText}>Actualizar</Text>
                         </Pressable>

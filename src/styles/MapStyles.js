@@ -1,4 +1,5 @@
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { COLORS, RADIUS, SHADOWS } from './CommonStyles';
 import { reportColors } from './ReportStyles';
 
 export const mapStyles = StyleSheet.create({
@@ -43,19 +44,12 @@ export const mapStyles = StyleSheet.create({
         left: 14,
         right: 14,
         top: 14,
-        borderRadius: 14,
+        borderRadius: RADIUS.md,
         padding: 13,
         backgroundColor: 'rgba(255,255,255,0.96)',
-        ...Platform.select({
-            web: { boxShadow: '0 5px 18px rgba(20, 38, 61, 0.13)' },
-            android: { elevation: 5 },
-            ios: {
-                shadowColor: '#14263D',
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.12,
-                shadowRadius: 10,
-            },
-        }),
+        borderWidth: 1,
+        borderColor: reportColors.border,
+        ...SHADOWS.card,
     },
     overlayText: {
         color: reportColors.ink,
@@ -106,7 +100,7 @@ export const mapStyles = StyleSheet.create({
         justifyContent: 'center',
     },
     webLocationButtonDisabled: {
-        backgroundColor: '#EDF1F2',
+        backgroundColor: COLORS.surfaceMuted,
     },
     webLocationText: {
         color: reportColors.primaryDark,

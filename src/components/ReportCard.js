@@ -4,7 +4,15 @@ import { formatReportDate } from '../services/reportValidation';
 import { reportStyles as styles } from '../styles/ReportStyles';
 import StatusBadge from './StatusBadge';
 
-export default function ReportCard({ report, onEdit, onCancel, onDelete, actions = false, showPhoto = true }) {
+export default function ReportCard({
+    report,
+    onEdit,
+    onCancel,
+    onDelete,
+    actions = false,
+    showPhoto = true,
+    extraAction = null,
+}) {
     const canEdit = report.estado === REPORT_STATUS.PENDING;
     const canCancel = [REPORT_STATUS.PENDING, REPORT_STATUS.UNDER_REVIEW].includes(report.estado);
     const coordinates = report.coordenadas;
@@ -36,23 +44,24 @@ export default function ReportCard({ report, onEdit, onCancel, onDelete, actions
                 </View>
             </View>
             {!!report.descripcion && <Text style={styles.cardDescription}>{report.descripcion}</Text>}
-            {actions && (
+            {(actions || extraAction) && (
                 <View style={styles.cardActions}>
-                    {onEdit && canEdit && (
+                    {actions && onEdit && canEdit && (
                         <Pressable accessibilityRole="button" onPress={() => onEdit(report)} style={styles.smallAction}>
                             <Text style={styles.smallActionText}>Editar</Text>
                         </Pressable>
                     )}
-                    {onCancel && canCancel && (
+                    {actions && onCancel && canCancel && (
                         <Pressable accessibilityRole="button" onPress={() => onCancel(report)} style={styles.smallAction}>
                             <Text style={styles.smallActionText}>Cancelar reclamo</Text>
                         </Pressable>
                     )}
-                    {onDelete && (
+                    {actions && onDelete && (
                         <Pressable accessibilityRole="button" onPress={() => onDelete(report)} style={[styles.smallAction, styles.smallActionDanger]}>
                             <Text style={styles.smallActionTextDanger}>Eliminar</Text>
                         </Pressable>
                     )}
+                    {extraAction}
                 </View>
             )}
         </View>

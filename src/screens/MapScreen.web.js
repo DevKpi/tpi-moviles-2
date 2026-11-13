@@ -64,27 +64,32 @@ export default function MapScreenWeb({ navigation }) {
     const renderItem = ({ item }) => {
         const hasLocation = item.coordenadas && isValidCoordinates(item.coordenadas);
         return (
-            <View style={{ gap: 8 }}>
-                <ReportCard report={item} showPhoto={false} />
-                <Pressable
-                    accessibilityRole="link"
-                    accessibilityState={{ disabled: !hasLocation }}
-                    disabled={!hasLocation || openingId === item.id}
-                    onPress={() => openInMaps(item)}
-                    style={[
-                        mapStyles.webLocationButton,
-                        !hasLocation && mapStyles.webLocationButtonDisabled,
-                    ]}
-                >
-                    {openingId === item.id ? (
-                        <ActivityIndicator color={reportColors.primary} />
-                    ) : (
-                        <Text style={[mapStyles.webLocationText, !hasLocation && mapStyles.webLocationTextDisabled]}>
-                            {hasLocation ? 'Abrir ubicación en Google Maps' : 'Sin coordenadas para mostrar'}
-                        </Text>
-                    )}
-                </Pressable>
-            </View>
+            <ReportCard
+                report={item}
+                showPhoto={false}
+                extraAction={
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+                        <Pressable
+                            accessibilityRole="link"
+                            accessibilityState={{ disabled: !hasLocation }}
+                            disabled={!hasLocation || openingId === item.id}
+                            onPress={() => openInMaps(item)}
+                            style={[
+                                mapStyles.webLocationButton,
+                                !hasLocation && mapStyles.webLocationButtonDisabled,
+                            ]}
+                        >
+                            {openingId === item.id ? (
+                                <ActivityIndicator color={reportColors.primary} />
+                            ) : (
+                                <Text style={[mapStyles.webLocationText, !hasLocation && mapStyles.webLocationTextDisabled]}>
+                                    {hasLocation ? 'Abrir en Google Maps ↗' : 'Sin coordenadas'}
+                                </Text>
+                            )}
+                        </Pressable>
+                    </View>
+                }
+            />
         );
     };
 

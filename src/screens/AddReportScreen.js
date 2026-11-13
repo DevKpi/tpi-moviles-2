@@ -103,6 +103,11 @@ export default function AddReportScreen({ navigation }) {
         else navigation?.navigate?.('MisReportes');
     };
 
+    const goToReports = () => {
+        if (navigation?.replace) navigation.replace('MisReportes');
+        else navigation?.navigate?.('MisReportes');
+    };
+
     const isBusy = Boolean(busy);
     const fieldStyle = (field) => [styles.input, errors[field] && styles.inputError];
 
@@ -135,8 +140,8 @@ export default function AddReportScreen({ navigation }) {
                         <View style={styles.emptyState}>
                             <Text style={styles.emptyTitle}>Reporte enviado</Text>
                             <Text style={styles.emptyText}>Gracias por ayudar a mejorar el barrio. Ya puedes consultar el estado desde Mis Reportes.</Text>
-                            <Pressable accessibilityRole="button" onPress={goBack} style={[styles.button, styles.buttonPrimary]}>
-                                <Text style={styles.buttonText}>Volver a mis reportes</Text>
+                            <Pressable accessibilityRole="button" onPress={goToReports} style={[styles.button, styles.buttonPrimary]}>
+                                <Text style={styles.buttonText}>Ir a mis reportes</Text>
                             </Pressable>
                         </View>
                     ) : (

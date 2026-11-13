@@ -19,7 +19,7 @@ export default function ReportCard({ report, onEdit, onCancel, onDelete, actions
                     <View style={styles.thumbnailPlaceholder}>
                         <Text style={styles.thumbnailPlaceholderText}>Sin foto</Text>
                     </View>
-                )}
+                ) : null}
                 <View style={styles.cardCopy}>
                     <View style={styles.row}>
                         <Text style={styles.cardTitle}>{report.titulo}</Text>

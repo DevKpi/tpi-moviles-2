@@ -41,6 +41,7 @@ export default function CustomInput({
             >
                 <TextInput
                     testID={testID}
+                    accessibilityLabel={label}
                     style={[
                         commonStyles.inputField,
                         multiline && commonStyles.inputFieldMultiline,
@@ -65,6 +66,8 @@ export default function CustomInput({
                     <Pressable
                         onPress={() => setShowPassword((prev) => !prev)}
                         hitSlop={8}
+                        accessibilityRole="button"
+                        accessibilityLabel={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                         style={commonStyles.inputToggleButton}
                     >
                         <Text style={commonStyles.inputToggleText}>

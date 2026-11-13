@@ -9,7 +9,7 @@ import { getReportErrorMessage } from '../utils/reportErrorMessages';
 import { reportColors, reportStyles } from '../styles/ReportStyles';
 import { mapStyles } from '../styles/MapStyles';
 
-export default function MapScreenWeb() {
+export default function MapScreenWeb({ navigation }) {
     const { user } = useContext(AuthContext);
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -88,6 +88,11 @@ export default function MapScreenWeb() {
         );
     };
 
+    const goBack = () => {
+        if (navigation?.canGoBack?.()) navigation.goBack();
+        else navigation?.navigate?.('Inicio');
+    };
+
     return (
         <View style={mapStyles.screen}>
             <View style={mapStyles.webContent}>
@@ -96,9 +101,14 @@ export default function MapScreenWeb() {
                         <Text style={mapStyles.title}>Mapa de reportes</Text>
                         <Text style={mapStyles.subtitle}>Versión web · {reports.filter((item) => item.coordenadas && isValidCoordinates(item.coordenadas)).length} ubicaciones disponibles</Text>
                     </View>
-                    <Pressable accessibilityRole="button" onPress={loadReports} style={mapStyles.actionButton}>
-                        <Text style={mapStyles.actionButtonText}>Actualizar</Text>
-                    </Pressable>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                        <Pressable accessibilityRole="button" onPress={goBack} style={[reportStyles.button, reportStyles.buttonOutline, { minHeight: 40, paddingHorizontal: 12 }]}>
+                            <Text style={reportStyles.buttonTextSecondary}>← Volver</Text>
+                        </Pressable>
+                        <Pressable accessibilityRole="button" onPress={loadReports} style={mapStyles.actionButton}>
+                            <Text style={mapStyles.actionButtonText}>Actualizar</Text>
+                        </Pressable>
+                    </View>
                 </View>
 
                 {!!errorMessage && (

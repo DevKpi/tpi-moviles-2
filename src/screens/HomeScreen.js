@@ -1,9 +1,10 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import ScreenHeader from '../components/ScreenHeader';
 import { AuthContext } from '../context/AuthContext';
 import { logout } from '../firebase/authService';
+import { getUser } from '../services/userService';
 import { urbanHomeStyles as styles } from '../styles/UrbanHomeStyles';
 
 const DASHBOARD_SECTIONS = [
@@ -40,9 +41,33 @@ const DASHBOARD_SECTIONS = [
 export default function HomeScreen({ navigation, onLogout }) {
     const authContext = useContext(AuthContext);
     const user = authContext?.user || null;
+    const [profileData, setProfileData] = useState(null);
     const [loggingOut, setLoggingOut] = useState(false);
 
-    const displayName = user?.displayName
+    useEffect(() => {
+        let isMounted = true;
+
+        const loadProfile = async () => {
+            if (!user?.uid) {
+                setProfileData(null);
+                return;
+            }
+
+            const remoteProfile = await getUser(user.uid);
+            if (isMounted) {
+                setProfileData(remoteProfile);
+            }
+        };
+
+        loadProfile();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [user?.uid]);
+
+    const displayName = profileData?.nombre?.trim()
+        || user?.displayName
         || (user?.email ? user.email.split('@')[0] : 'Vecino');
 
     const handleLogout = async () => {
@@ -127,7 +152,7 @@ export default function HomeScreen({ navigation, onLogout }) {
                 <View style={styles.accountSummaryCard}>
                     <Text style={styles.accountSummaryLabel}>Sesión iniciada como</Text>
                     <Text style={styles.accountSummaryValue}>
-                        {user?.email || 'Usuario autenticado'}
+                        {displayName}
                     </Text>
                 </View>
 

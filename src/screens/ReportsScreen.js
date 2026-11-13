@@ -11,6 +11,7 @@ import {
     View,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import BackButton from '../components/BackButton';
 import CategorySelector from '../components/CategorySelector';
 import ReportCard from '../components/ReportCard';
 import { REPORT_STATUS } from '../constants/reportConstants';
@@ -170,9 +171,7 @@ export default function ReportsScreen({ navigation }) {
                         <Text style={styles.subtitle}>Consulta su estado y administra tus reclamos.</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                        <Pressable accessibilityRole="button" onPress={goBack} style={[styles.button, styles.buttonOutline, { minHeight: 42 }]}>
-                            <Text style={styles.buttonTextSecondary}>← Volver</Text>
-                        </Pressable>
+                        <BackButton onPress={goBack} />
                         <Pressable accessibilityRole="button" onPress={openNewReport} style={styles.headerButton}>
                             <Text style={styles.headerButtonText}>+ Nuevo</Text>
                         </Pressable>

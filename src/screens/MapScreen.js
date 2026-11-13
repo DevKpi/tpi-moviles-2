@@ -1,14 +1,15 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Image, Modal, Pressable, ScrollView, Text, View } from 'react-native';
 import MapView, { Callout, Marker } from 'react-native-maps';
 import { useFocusEffect } from '@react-navigation/native';
+import ReportCard from '../components/ReportCard';
 import { REPORT_STATUS, isValidCoordinates } from '../constants/reportConstants';
 import { AuthContext } from '../context/AuthContext';
 import { getAllReports } from '../services/reportService';
 import { getCurrentLocation } from '../services/locationService';
 import { formatReportDate } from '../services/reportValidation';
 import { getReportErrorMessage } from '../utils/reportErrorMessages';
-import { reportColors } from '../styles/ReportStyles';
+import { reportColors, reportStyles } from '../styles/ReportStyles';
 import { mapStyles as styles } from '../styles/MapStyles';
 
 const defaultRegion = {
@@ -25,11 +26,12 @@ const markerColors = {
     [REPORT_STATUS.CANCELLED]: '#768391',
 };
 
-export default function MapScreen() {
+export default function MapScreen({ navigation }) {
     const { user } = useContext(AuthContext);
     const mapRef = useRef(null);
     const [reports, setReports] = useState([]);
     const [selectedReport, setSelectedReport] = useState(null);
+    const [detailReport, setDetailReport] = useState(null);
     const [loading, setLoading] = useState(true);
     const [locating, setLocating] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -156,19 +158,79 @@ export default function MapScreen() {
 
                 {selectedReport && (
                     <View style={styles.selectedCard}>
-                        <View style={{ backgroundColor: '#FFFFFF', borderRadius: 16, padding: 14, gap: 6 }}>
-                            <Text style={{ color: '#14263D', fontSize: 16, fontWeight: '800' }}>{selectedReport.titulo}</Text>
-                            <Text style={{ color: '#60738A', fontSize: 12 }}>{selectedReport.categoria} · {selectedReport.estado}</Text>
+                        <View style={{ backgroundColor: reportColors.surface, borderRadius: 16, padding: 14, gap: 8, borderWidth: 1, borderColor: reportColors.border }}>
+                            <Text style={{ color: reportColors.ink, fontSize: 16, fontWeight: '800' }}>{selectedReport.titulo}</Text>
+                            <Text style={{ color: reportColors.muted, fontSize: 12 }}>{selectedReport.categoria} · {selectedReport.estado}</Text>
                             {!!selectedReport.descripcion && (
-                                <Text numberOfLines={3} style={{ color: '#354C62', fontSize: 13, lineHeight: 18 }}>{selectedReport.descripcion}</Text>
+                                <Text numberOfLines={3} style={{ color: reportColors.muted, fontSize: 13, lineHeight: 18 }}>{selectedReport.descripcion}</Text>
                             )}
-                            <Pressable accessibilityRole="button" onPress={() => setSelectedReport(null)} style={[styles.actionButton, { alignSelf: 'flex-end' }]}>
-                                <Text style={styles.actionButtonText}>Cerrar detalle</Text>
-                            </Pressable>
+                            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', gap: 8, marginTop: 4 }}>
+                                <Pressable
+                                    accessibilityRole="button"
+                                    onPress={() => setSelectedReport(null)}
+                                    style={[reportStyles.button, reportStyles.buttonOutline, { minHeight: 40, paddingHorizontal: 14 }]}
+                                >
+                                    <Text style={reportStyles.buttonTextSecondary}>Cerrar</Text>
+                                </Pressable>
+                                <Pressable
+                                    accessibilityRole="button"
+                                    onPress={() => setDetailReport(selectedReport)}
+                                    style={[reportStyles.button, reportStyles.buttonPrimary, { minHeight: 40, paddingHorizontal: 14 }]}
+                                >
+                                    <Text style={reportStyles.buttonText}>Ver reporte completo</Text>
+                                </Pressable>
+                            </View>
                         </View>
                     </View>
                 )}
             </View>
+
+            <Modal visible={!!detailReport} transparent animationType="fade" onRequestClose={() => setDetailReport(null)}>
+                <View style={reportStyles.modalOverlay}>
+                    <View style={reportStyles.modalContent}>
+                        <Text style={reportStyles.sectionTitle}>Detalle del incidente</Text>
+                        {detailReport && (
+                            <ScrollView contentContainerStyle={{ gap: 12 }} showsVerticalScrollIndicator={false}>
+                                {detailReport.fotoUri ? (
+                                    <Image
+                                        source={{ uri: detailReport.fotoUri }}
+                                        style={reportStyles.photoPreview}
+                                        resizeMode="cover"
+                                        accessibilityLabel="Fotografía del incidente"
+                                    />
+                                ) : (
+                                    <View style={reportStyles.photoPlaceholder}>
+                                        <Text style={reportStyles.photoPlaceholderTitle}>Sin fotografía adjunta</Text>
+                                        <Text style={reportStyles.photoPlaceholderText}>Este reporte no incluye imagen de evidencia.</Text>
+                                    </View>
+                                )}
+                                <ReportCard report={detailReport} showPhoto={false} />
+                            </ScrollView>
+                        )}
+                        <View style={[reportStyles.row, { justifyContent: 'flex-end' }]}>
+                            {detailReport?.userId === user?.uid && (
+                                <Pressable
+                                    accessibilityRole="button"
+                                    onPress={() => {
+                                        setDetailReport(null);
+                                        navigation?.navigate?.('MisReportes');
+                                    }}
+                                    style={[reportStyles.button, reportStyles.buttonSecondary]}
+                                >
+                                    <Text style={reportStyles.buttonTextSecondary}>Ir a Mis reportes</Text>
+                                </Pressable>
+                            )}
+                            <Pressable
+                                accessibilityRole="button"
+                                onPress={() => setDetailReport(null)}
+                                style={[reportStyles.button, reportStyles.buttonPrimary]}
+                            >
+                                <Text style={reportStyles.buttonText}>Cerrar</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }

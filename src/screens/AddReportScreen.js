@@ -10,6 +10,7 @@ import {
     TextInput,
     View,
 } from 'react-native';
+import BackButton from '../components/BackButton';
 import CategorySelector from '../components/CategorySelector';
 import { AuthContext } from '../context/AuthContext';
 import { createReport } from '../services/reportService';
@@ -125,9 +126,7 @@ export default function AddReportScreen({ navigation }) {
                             <Text style={styles.title}>Contanos qué pasó</Text>
                             <Text style={styles.subtitle}>Los datos ayudan a ubicar y entender el problema.</Text>
                         </View>
-                        <Pressable accessibilityRole="button" onPress={goBack} style={[styles.button, styles.buttonOutline]}>
-                            <Text style={styles.buttonTextSecondary}>Volver</Text>
-                        </Pressable>
+                        <BackButton onPress={goBack} />
                     </View>
 
                     {message && (
@@ -154,7 +153,7 @@ export default function AddReportScreen({ navigation }) {
                                         accessibilityLabel="Título del reclamo"
                                         value={draft.titulo}
                                         onChangeText={(value) => updateDraft('titulo', value)}
-                                        placeholder="Ej.: Luminaria apagada"
+                                        placeholder="Ej.: Luminaria apagada…"
                                         placeholderTextColor="#8293A5"
                                         maxLength={80}
                                         editable={!isBusy}
@@ -169,7 +168,7 @@ export default function AddReportScreen({ navigation }) {
                                         accessibilityLabel="Descripción del reclamo"
                                         value={draft.descripcion}
                                         onChangeText={(value) => updateDraft('descripcion', value)}
-                                        placeholder="Agrega detalles que ayuden a identificar el problema."
+                                        placeholder="Agrega detalles que ayuden a identificar el problema…"
                                         placeholderTextColor="#8293A5"
                                         maxLength={1000}
                                         multiline

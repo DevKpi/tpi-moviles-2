@@ -99,6 +99,11 @@ export default function MapScreen({ navigation }) {
 
     const markerColor = (status) => markerColors[status] || reportColors.primary;
 
+    const goBack = () => {
+        if (navigation?.canGoBack?.()) navigation.goBack();
+        else navigation?.navigate?.('Inicio');
+    };
+
     return (
         <View style={styles.screen}>
             <View style={styles.header}>
@@ -106,9 +111,14 @@ export default function MapScreen({ navigation }) {
                     <Text style={styles.title}>Mapa de reportes</Text>
                     <Text style={styles.subtitle}>{geolocatedReports.length} reportes con ubicación</Text>
                 </View>
-                <Pressable accessibilityRole="button" onPress={loadReports} style={styles.actionButton}>
-                    <Text style={styles.actionButtonText}>Actualizar</Text>
-                </Pressable>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <Pressable accessibilityRole="button" onPress={goBack} style={[reportStyles.button, reportStyles.buttonOutline, { minHeight: 40, paddingHorizontal: 12 }]}>
+                        <Text style={reportStyles.buttonTextSecondary}>← Volver</Text>
+                    </Pressable>
+                    <Pressable accessibilityRole="button" onPress={loadReports} style={styles.actionButton}>
+                        <Text style={styles.actionButtonText}>Actualizar</Text>
+                    </Pressable>
+                </View>
             </View>
 
             <View style={styles.mapContainer}>

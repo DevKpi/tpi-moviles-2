@@ -210,14 +210,23 @@ export const commonStyles = StyleSheet.create({
         letterSpacing: 0.6,
     },
     headerBackButton: {
-        paddingVertical: 4,
-        paddingHorizontal: 8,
-        borderRadius: RADIUS.sm,
+        minHeight: 38,
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: RADIUS.md,
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        backgroundColor: COLORS.surface,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    headerBackButtonPressed: {
         backgroundColor: COLORS.surfaceMuted,
+        opacity: 0.9,
     },
     headerBackText: {
         fontSize: 13,
-        fontWeight: '600',
+        fontWeight: '700',
         color: COLORS.textPrimary,
     },
     headerTitle: {

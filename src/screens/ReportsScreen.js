@@ -155,6 +155,11 @@ export default function ReportsScreen({ navigation }) {
 
     const openNewReport = () => navigation?.navigate?.('NuevoReporte');
 
+    const goBack = () => {
+        if (navigation?.canGoBack?.()) navigation.goBack();
+        else navigation?.navigate?.('Inicio');
+    };
+
     return (
         <View style={styles.screen}>
             <View style={[styles.content, { flex: 1, paddingBottom: 10 }]}>
@@ -164,9 +169,14 @@ export default function ReportsScreen({ navigation }) {
                         <Text style={styles.title}>Mis reportes</Text>
                         <Text style={styles.subtitle}>Consulta su estado y administra tus reclamos.</Text>
                     </View>
-                    <Pressable accessibilityRole="button" onPress={openNewReport} style={styles.headerButton}>
-                        <Text style={styles.headerButtonText}>+ Nuevo</Text>
-                    </Pressable>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                        <Pressable accessibilityRole="button" onPress={goBack} style={[styles.button, styles.buttonOutline, { minHeight: 42 }]}>
+                            <Text style={styles.buttonTextSecondary}>← Volver</Text>
+                        </Pressable>
+                        <Pressable accessibilityRole="button" onPress={openNewReport} style={styles.headerButton}>
+                            <Text style={styles.headerButtonText}>+ Nuevo</Text>
+                        </Pressable>
+                    </View>
                 </View>
 
                 {!!notice && <Text style={styles.notice}>{notice}</Text>}

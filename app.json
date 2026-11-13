@@ -33,8 +33,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "c0a16d0e-00cd-4ce0-8973-22060209b8c4"
+        "projectId": "e8e86e23-d507-4f78-aa42-7e5faabb0408"
       }
-    }
+    },
+    "owner": "devkpi"
   }
 }

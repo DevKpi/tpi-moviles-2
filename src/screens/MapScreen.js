@@ -2,6 +2,7 @@ import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'r
 import { ActivityIndicator, Image, Modal, Pressable, ScrollView, Text, View } from 'react-native';
 import MapView, { Callout, Marker } from 'react-native-maps';
 import { useFocusEffect } from '@react-navigation/native';
+import BackButton from '../components/BackButton';
 import ReportCard from '../components/ReportCard';
 import { REPORT_STATUS, isValidCoordinates } from '../constants/reportConstants';
 import { AuthContext } from '../context/AuthContext';
@@ -112,9 +113,7 @@ export default function MapScreen({ navigation }) {
                     <Text style={styles.subtitle}>{geolocatedReports.length} reportes con ubicación</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                    <Pressable accessibilityRole="button" onPress={goBack} style={[reportStyles.button, reportStyles.buttonOutline, { minHeight: 40, paddingHorizontal: 12 }]}>
-                        <Text style={reportStyles.buttonTextSecondary}>← Volver</Text>
-                    </Pressable>
+                    <BackButton onPress={goBack} />
                     <Pressable accessibilityRole="button" onPress={loadReports} style={styles.actionButton}>
                         <Text style={styles.actionButtonText}>Actualizar</Text>
                     </Pressable>

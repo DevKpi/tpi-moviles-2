@@ -34,10 +34,11 @@ export const mapStyles = StyleSheet.create({
     mapContainer: {
         flex: 1,
         position: 'relative',
-        overflow: 'hidden',
     },
     map: {
-        ...StyleSheet.absoluteFillObject,
+        flex: 1,
+        width: '100%',
+        height: '100%',
     },
     overlay: {
         position: 'absolute',

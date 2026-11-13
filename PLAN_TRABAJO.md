@@ -47,15 +47,15 @@ Thiago es responsable del esqueleto de navegación y de las pantallas generales 
 
 Esteban es responsable del flujo principal de reclamos y de las integraciones locales con GPS, cámara y galería.
 
-- [ ] Implementar `AddReportScreen.js` con título, descripción, selección de categoría, ubicación, foto, validaciones y estados de carga/error.
-- [ ] Implementar `ReportsScreen.js` con estados de carga, error y lista vacía; mostrar los reportes y ofrecer las acciones acordadas para editar, cancelar y eliminar.
-- [ ] Implementar `MapScreen.js` para Android/iOS con marcadores de reportes que tengan coordenadas y una vista informativa al seleccionar un marcador.
-- [ ] Implementar `MapScreen.web.js` como alternativa web estable, mostrando la información de ubicación y una opción para abrirla en un servicio de mapas si no hay mapa integrado.
-- [ ] Revisar y mantener `locationService.js`: permisos, GPS desactivado, errores y liberación de suscripciones si se utiliza seguimiento continuo.
-- [ ] Revisar y mantener `ImageService.js`: permisos de cámara/galería, cancelación, errores y devolución de la URI seleccionada.
-- [ ] Crear componentes específicos de reportes, por ejemplo `ReportCard`, `StatusBadge` y selector de categorías.
-- [ ] Crear estilos nuevos para formulario, listado y mapa de UrbanAlert, sin modificar los estilos usados por `screens_old/`.
-- [ ] Agregar pruebas unitarias para validaciones y servicios locales de ubicación/imágenes, con mocks de hardware según `AGENTS.md`.
+- [x] Implementar `AddReportScreen.js` con título, descripción, selección de categoría, ubicación, foto, validaciones y estados de carga/error.
+- [x] Implementar `ReportsScreen.js` con estados de carga, error y lista vacía; mostrar los reportes y ofrecer las acciones acordadas para editar, cancelar y eliminar.
+- [x] Implementar `MapScreen.js` para Android/iOS con marcadores de reportes que tengan coordenadas y una vista informativa al seleccionar un marcador.
+- [x] Implementar `MapScreen.web.js` como alternativa web estable, mostrando la información de ubicación y una opción para abrirla en un servicio de mapas si no hay mapa integrado.
+- [x] Revisar y mantener `locationService.js`: permisos, GPS desactivado, errores y liberación de suscripciones si se utiliza seguimiento continuo.
+- [x] Revisar y mantener `ImageService.js`: permisos de cámara/galería, cancelación, errores y devolución de la URI seleccionada.
+- [x] Crear componentes específicos de reportes, por ejemplo `ReportCard`, `StatusBadge` y selector de categorías.
+- [x] Crear estilos nuevos para formulario, listado y mapa de UrbanAlert, sin modificar los estilos usados por `screens_old/`.
+- [x] Agregar pruebas unitarias para validaciones y servicios locales de ubicación/imágenes, con mocks de hardware según `AGENTS.md`.
 
 **Archivos bajo responsabilidad de Esteban:**
 

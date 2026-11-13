@@ -1,24 +1,25 @@
 import { Platform, StyleSheet } from 'react-native';
 
 export const COLORS = {
-    primary: '#1d4ed8',
-    primaryDark: '#1e3a8a',
-    primaryLight: '#dbeafe',
-    accent: '#d97706',
-    accentLight: '#fef3c7',
-    success: '#15803d',
-    successLight: '#dcfce7',
-    danger: '#dc2626',
-    dangerLight: '#fee2e2',
-    background: '#f8fafc',
-    surface: '#ffffff',
-    surfaceMuted: '#f1f5f9',
-    textPrimary: '#0f172a',
+    primary: '#2563EB',
+    primaryDark: '#1E3A8A',
+    primaryLight: '#EFF6FF',
+    primaryBorder: '#BFDBFE',
+    accent: '#D97706',
+    accentLight: '#FEF3C7',
+    success: '#16A34A',
+    successLight: '#DCFCE7',
+    danger: '#DC2626',
+    dangerLight: '#FEE2E2',
+    background: '#F8FAFC',
+    surface: '#FFFFFF',
+    surfaceMuted: '#F1F5F9',
+    textPrimary: '#0F172A',
     textSecondary: '#475569',
-    textMuted: '#64748b',
-    border: '#e2e8f0',
-    borderFocus: '#2563eb',
-    white: '#ffffff',
+    textMuted: '#64748B',
+    border: '#E2E8F0',
+    borderFocus: '#2563EB',
+    white: '#FFFFFF',
 };
 
 export const SPACING = {
@@ -40,16 +41,16 @@ export const RADIUS = {
 export const SHADOWS = {
     card: Platform.select({
         ios: {
-            shadowColor: '#0f172a',
+            shadowColor: '#0F172A',
             shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.06,
-            shadowRadius: 10,
+            shadowOpacity: 0.05,
+            shadowRadius: 12,
         },
         android: {
-            elevation: 3,
+            elevation: 2,
         },
         default: {
-            boxShadow: '0px 4px 12px rgba(15, 23, 42, 0.06)',
+            boxShadow: '0px 4px 14px rgba(15, 23, 42, 0.05)',
         },
     }),
 };

@@ -1,5 +1,6 @@
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { commonStyles } from '../styles/CommonStyles';
+import BackButton from './BackButton';
 
 /**
  * Encabezado reutilizable para las pantallas de UrbanAlert.
@@ -20,19 +21,14 @@ export default function ScreenHeader({
                     </View>
                 ) : <View />}
 
-                {onBack ? (
-                    <Pressable
-                        onPress={onBack}
-                        hitSlop={10}
-                        style={commonStyles.headerBackButton}
-                        accessibilityRole="button"
-                    >
-                        <Text style={commonStyles.headerBackText}>{backLabel}</Text>
-                    </Pressable>
-                ) : null}
+                {onBack ? <BackButton onPress={onBack} label={backLabel} /> : null}
             </View>
 
-            {title ? <Text style={commonStyles.headerTitle}>{title}</Text> : null}
+            {title ? (
+                <Text accessibilityRole="header" style={commonStyles.headerTitle}>
+                    {title}
+                </Text>
+            ) : null}
             {subtitle ? <Text style={commonStyles.headerSubtitle}>{subtitle}</Text> : null}
         </View>
     );
